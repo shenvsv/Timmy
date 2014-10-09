@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg">
+    <!--android:paddingLeft="12dp"-->
+    <!--android:paddingRight="12dp"-->
+    <!--android:paddingTop="6dp"-->
+    <!--android:paddingBottom="6dp"-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/btn_card"
+        android:padding="10dp"
+        android:id="@+id/relativeLayout">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_launcher"
+            
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/iv_icon"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="16dp"
+                android:textColor="@android:color/black"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="3dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_time"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:max="100"
+        android:background="@drawable/bg_pb_time"
+        android:progressDrawable="@drawable/time_progressbar" />
+
+</RelativeLayout>
