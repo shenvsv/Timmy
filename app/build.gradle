@@ -27,6 +27,7 @@ dependencies {
     compile 'org.michaelevans.colorart:library:0.0.2'
     compile 'de.greenrobot:eventbus:2.2.1'
     compile project(':circleimageview')
+    compile project(':MPChartLib')
 }
 
 

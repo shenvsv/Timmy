@@ -5,6 +5,8 @@
     <string name="title_section1">首页</string>
     <string name="title_section2">设置</string>
     <string name="title_section3">关于</string>
+    <string name="pie_chat_other">other</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>

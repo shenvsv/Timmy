@@ -27,6 +27,7 @@ import com.tovsv.timmy.service.AppListenerService;
 import com.tovsv.timmy.util.AppInfoList;
 import com.tovsv.timmy.util.AppRecordHelper;
 import com.tovsv.timmy.view.AppRecordListVIew;
+import com.umeng.update.UmengUpdateAgent;
 
 import java.util.Calendar;
 
@@ -50,6 +51,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        //UmengUpdateAgent.update(this);
         mEventBus = EventBus.getDefault();
         mEventBus.register(this);
 
