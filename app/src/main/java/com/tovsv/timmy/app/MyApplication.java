@@ -23,11 +23,7 @@ public class MyApplication extends Application {
     private void initDB() {
         Sprinkles sprinkles = Sprinkles.init(getApplicationContext());
         Migration migration = new Migration();
-//        migration.createTable(AppRecord.class);
         migration.createTable(AppAction.class);
-//        migration.createTable(Category.class);
-//        migration.createTable(AppsCategory.class);
-//        migration.createTable(DailyRecord.class);
         sprinkles.addMigration(migration);
     }
 }

@@ -62,9 +62,6 @@ public class MainFragment extends Fragment {
         showTime(ca);
     }
 
-    @InjectView(R.id.chart)
-    PieChart pieChart;
-
     @InjectView(R.id.chat_view)
     ChartView chartView;
 
@@ -113,27 +110,6 @@ public class MainFragment extends Fragment {
 
 
     private void init() {
-        pieChart.setHoleRadius(60f);
-
-        pieChart.setDescription("");
-
-        pieChart.setDrawYValues(true);
-        pieChart.setDrawCenterText(true);
-
-        pieChart.setDrawHoleEnabled(true);
-
-        pieChart.setRotationAngle(0);
-
-        // draws the corresponding description value into the slice
-        pieChart.setDrawXValues(true);
-
-        // enable rotation of the chart by touch
-        pieChart.setRotationEnabled(true);
-
-        // display percentage values
-        pieChart.setUsePercentValues(true);
-        // mChart.setUnit(" €");
-        pieChart.setDrawUnitsInChart(true);
 
         timeList.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -159,12 +135,11 @@ public class MainFragment extends Fragment {
             @Override
             protected void onPostExecute(AppInfoList list) {
                 setData(list);
-                pieChart.animateY(1500);
+
                 chartView.animateY(1500);
                 // startAnimators();
-//                AppRecordListAdapter adapter = new AppRecordListAdapter(context, list);
-
-//                timeList.setAdapter(adapter);
+                AppRecordListAdapter adapter = new AppRecordListAdapter(context, list);
+                timeList.setAdapter(adapter);
             }
         }.execute();
 
@@ -176,10 +151,10 @@ public class MainFragment extends Fragment {
     }
 
     private void prepare(){
-        ViewGroup.LayoutParams  lp = pieChart.getLayoutParams();
-        lp.height = 1000;
-        animatorProgress = 1000;
-        pieChart.setLayoutParams(lp);
+//        ViewGroup.LayoutParams  lp = pieChart.getLayoutParams();
+//        lp.height = 1000;
+//        animatorProgress = 1000;
+//        pieChart.setLayoutParams(lp);
     }
 
     private void setData(AppInfoList list){
@@ -204,16 +179,16 @@ public class MainFragment extends Fragment {
         set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
         PieData data = new PieData(names, set1);
-        pieChart.setData(data);
+
         chartView.setData(data);
 
         // undo all highlights
-        pieChart.highlightValues(null);
-
-        // set a text for the chart center
-        pieChart.setCenterText("Total Value\n" + (int) pieChart.getYValueSum() + "\n(all slices)");
-        pieChart.setCenterText("app test");
-        pieChart.invalidate();
+//        pieChart.highlightValues(null);
+//
+//        // set a text for the chart center
+//        pieChart.setCenterText("Total Value\n" + (int) pieChart.getYValueSum() + "\n(all slices)");
+//        pieChart.setCenterText("app test");
+//        pieChart.invalidate();
     }
 
     private void cancelAllAnimators() {
@@ -226,10 +201,7 @@ public class MainFragment extends Fragment {
     public void setAnimatorProgress(int animatorProgress){
         this.animatorProgress = animatorProgress;
         DLog.i("//"+animatorProgress);
-        //pieChart.setY(pieChart.getY() + animatorProgress * 10);
-        ViewGroup.LayoutParams  lp = pieChart.getLayoutParams();
-        lp.height = animatorProgress;
-        pieChart.setLayoutParams(lp);
+
 
     }
 

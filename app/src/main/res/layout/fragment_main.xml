@@ -10,12 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="top">
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            />
-        
+
         <com.tovsv.timmy.view.ChartView
             android:id="@+id/chat_view"
             android:layout_width="match_parent"
