@@ -76,7 +76,6 @@ public class MainFragment extends Fragment {
     private Animator animator;
     private int animatorProgress = 0;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,8 +106,6 @@ public class MainFragment extends Fragment {
         showTime(Calendar.getInstance());
     }
 
-
-
     private void init() {
 
         timeList.setOnTouchListener(new View.OnTouchListener() {
@@ -135,11 +132,12 @@ public class MainFragment extends Fragment {
             @Override
             protected void onPostExecute(AppInfoList list) {
                 setData(list);
+                AppRecordListAdapter adapter = new AppRecordListAdapter(context, list);
+                timeList.setAdapter(adapter);
 
                 chartView.animateY(1500);
                 // startAnimators();
-                AppRecordListAdapter adapter = new AppRecordListAdapter(context, list);
-                timeList.setAdapter(adapter);
+
             }
         }.execute();
 

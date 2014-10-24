@@ -55,29 +55,29 @@ public class AppRecordListVIew extends ListView implements AbsListView.OnScrollL
         this.setOnScrollListener(new OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                DLog.i("//"+scrollState);
+                //DLog.i("//"+scrollState);
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                DLog.i(".."+ mHeader.getY());
+                //DLog.i(".."+ mHeader.getY());
             }
         });
     }
 
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent ev) {
-//        if (isTouchHeader(ev)) {
-//            return false;
-//        }
-//        return super.onInterceptTouchEvent(ev);
-//    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (isTouchHeader(ev)) {
+            return false;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-//        if (isTouchHeader(ev)){
-//            return false;
-//        }
+        if (isTouchHeader(ev)){
+            return false;
+        }
         return super.onTouchEvent(ev);
     }
 

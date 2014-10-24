@@ -48,6 +48,7 @@ public class AppAction extends Model{
         appAction.date = AppActionHelper.formatDate(startTime);
         DLog.i(duration+"//");
         appAction.save();
+
     }
 
     public static String formatTime(Calendar calendar) {

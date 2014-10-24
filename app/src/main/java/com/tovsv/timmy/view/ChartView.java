@@ -169,6 +169,8 @@ public class ChartView extends PieRadarChartBase<PieData> {
         if (mDataNotSet)
             return;
 
+        this.setOffsets(3, 3, 3, 3);
+
         float diameter = getDiameter();
         float boxSize = diameter / 2f;
 

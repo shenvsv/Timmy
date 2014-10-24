@@ -14,8 +14,8 @@
         <com.tovsv.timmy.view.ChartView
             android:id="@+id/chat_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@android:color/holo_blue_bright"/>
+            android:layout_height="@dimen/chart_view_height"
+            />
 
     </LinearLayout>
 
