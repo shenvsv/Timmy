@@ -1,26 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="2" >
-
-    <dataSet config="debug" >
-        <source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/intermediates/bundles/debug/res" >
-            <file
-                path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/intermediates/bundles/debug/res/values/values.xml"
-                qualifiers="" >
-                <declare-styleable name="CircleImageView" >
-                    <attr
-                        name="border_width"
-                        format="dimension" />
-                    <attr
-                        name="border_color"
-                        format="color" />
-                </declare-styleable>
-            </file>
-        </source>
-    </dataSet>
-    <dataSet config="main" >
-        <source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/src/androidTest/res" />
-        <source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/generated/res/rs/test/debug" />
-        <source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/generated/res/generated/test/debug" />
-    </dataSet>
-
-</merger>
+<merger version="3"><dataSet config="debug"><source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/intermediates/bundles/debug/res"><file path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/intermediates/bundles/debug/res/values/values.xml" qualifiers=""><declare-styleable name="CircleImageView"><attr format="dimension" name="border_width"/><attr format="color" name="border_color"/></declare-styleable></file></source></dataSet><dataSet config="main"><source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/src/androidTest/res"/><source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/generated/res/rs/test/debug"/><source path="/Users/shenvsv/Documents/android/AndroidStudio/Timmy/circleimageview/build/generated/res/generated/test/debug"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="CircleImageView"><attr format="dimension" name="border_width"/><attr format="color" name="border_color"/></declare-styleable></configuration></mergedItems></merger>

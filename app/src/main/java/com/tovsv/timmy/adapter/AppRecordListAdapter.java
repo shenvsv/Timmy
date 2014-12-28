@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.tovsv.timmy.R;
 import com.tovsv.timmy.app.Constants;
 import com.tovsv.timmy.model.AppInfo;
@@ -18,8 +19,6 @@ import com.tovsv.timmy.util.AppInfoList;
 import com.tovsv.timmy.util.AsyncIconLoader;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by shenvsv on 14-9-24.
@@ -70,7 +69,7 @@ public class AppRecordListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.name = (TextView) view.findViewById(R.id.tv_name);
             holder.duration = (TextView) view.findViewById(R.id.tv_duration);
-            holder.icon = (CircleImageView) view.findViewById(R.id.iv_icon);
+            holder.icon = (ImageView) view.findViewById(R.id.iv_icon);
             holder.progressbar = (ProgressBar) view.findViewById(R.id.pb_time);
             view.setTag(holder);
         } else {
@@ -82,6 +81,7 @@ public class AppRecordListAdapter extends BaseAdapter {
         holder.duration.setText(appInfo.time);
         holder.progressbar.setProgress((int) (appInfo.duration * 100.0 / mMax));
         mAsyncIconLoader.loadBitmap(appInfo.packageName, holder.icon);
+//        mAsyncIconLoader.loadIcon(appInfo.packageName, holder.icon);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

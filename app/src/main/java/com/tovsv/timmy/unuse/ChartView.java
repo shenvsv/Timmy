@@ -1,4 +1,4 @@
-package com.tovsv.timmy.view;
+package com.tovsv.timmy.unuse;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,13 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.SurfaceView;
-import android.view.View;
 
-import com.github.mikephil.charting.charts.PieRadarChartBase;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -25,7 +20,7 @@ import java.util.ArrayList;
  * Created by shenvsv on 14-10-14.
  */
 
-public class ChartView extends PieRadarChartBase<PieData> {
+public class ChartView extends ChartViewBase<PieData> {
 
     /**
      * rect object that represents the bounds of the piechart, needed for
@@ -92,6 +87,7 @@ public class ChartView extends PieRadarChartBase<PieData> {
      * chart
      */
     private Paint mCenterTextPaint;
+    private Paint mPreparePaint;
 
     public ChartView(Context context) {
         super(context);
@@ -112,6 +108,9 @@ public class ChartView extends PieRadarChartBase<PieData> {
         mHolePaint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿
         mHolePaint.setColor(Color.WHITE);
 
+        mPreparePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPreparePaint.setColor(Color.BLUE);
+
         mCenterTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCenterTextPaint.setColor(mColorDarkBlue);
         mCenterTextPaint.setTextSize(Utils.convertDpToPixel(12f));
@@ -129,8 +128,12 @@ public class ChartView extends PieRadarChartBase<PieData> {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mDataNotSet)
+        if (mDataNotSet){
+            //drawPrepare();
+            canvas.drawText("no data ll", getWidth() / 2, getHeight() / 2, mInfoPaint);
+
             return;
+        }
 
         drawHighlights();
 
@@ -140,15 +143,33 @@ public class ChartView extends PieRadarChartBase<PieData> {
 
         drawValues();
 
-        drawLegend();
-
-        drawDescription();
-
         drawCenterText();
 
         canvas.drawBitmap(mDrawBitmap, 0, 0, mDrawPaint);
     }
 
+    private void drawPrepare() {
+
+        float radius = getRadius();
+
+        PointF c = getCenterCircleBox();
+
+        int color = mPreparePaint.getColor();
+
+        // draw the hole-circle
+        mDrawCanvas.drawCircle(c.x, c.y,
+                radius / 100 * mHoleRadiusPercent, mPreparePaint);
+
+        // make transparent
+        mPreparePaint.setColor(color & 0x60FFFFFF);
+
+        // draw the transparent-circle
+        mDrawCanvas.drawCircle(c.x, c.y,
+                radius / 100 * mTransparentCircleRadius, mPreparePaint);
+
+        mPreparePaint.setColor(color);
+
+    }
     /**
      * does all necessary preparations, needed when data is changed or flags
      * that effect the data are changed
@@ -174,9 +195,7 @@ public class ChartView extends PieRadarChartBase<PieData> {
         float diameter = getDiameter();
         float boxSize = diameter / 2f;
 
-//        PointF c = getCenterOffsets();
-        PointF c = new PointF(getWidth()/2f, getHeight()/2f);
-
+        PointF c = getCenter();
         mCircleBox.set(c.x - boxSize, c.y - boxSize, c.x + boxSize, c.y + boxSize);
 
     }
@@ -263,7 +282,6 @@ public class ChartView extends PieRadarChartBase<PieData> {
 
     }
 
-    @Override
     protected void drawHighlights() {
 
         // if there are values to highlight and highlighnting is enabled, do it
@@ -311,7 +329,6 @@ public class ChartView extends PieRadarChartBase<PieData> {
         }
     }
 
-    @Override
     protected void drawData() {
 
         float angle = mRotationAngle;
@@ -421,7 +438,6 @@ public class ChartView extends PieRadarChartBase<PieData> {
         }
     }
 
-    @Override
     protected void drawValues() {
 
         // if neither xvals nor yvals are drawn, return
@@ -499,7 +515,6 @@ public class ChartView extends PieRadarChartBase<PieData> {
         }
     }
 
-    @Override
     protected void drawAdditional() {
         drawHole();
     }

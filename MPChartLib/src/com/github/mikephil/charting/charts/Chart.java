@@ -467,13 +467,23 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
         if (mDataNotSet) { // check if there is data
 
             // if no data, inform the user
-            canvas.drawText(mNoDataText, getWidth() / 2, getHeight() / 2, mInfoPaint);
+//            canvas.drawText(mNoDataText, getWidth() / 2, getHeight() / 2, mInfoPaint);
+//
+//            if (!TextUtils.isEmpty(mNoDataTextDescription)) {
+//                float textOffset = -mInfoPaint.ascent() + mInfoPaint.descent();
+//                canvas.drawText(mNoDataTextDescription, getWidth() / 2, (getHeight() / 2)
+//                        + textOffset, mInfoPaint);
+//            }
 
-            if (!TextUtils.isEmpty(mNoDataTextDescription)) {
-                float textOffset = -mInfoPaint.ascent() + mInfoPaint.descent();
-                canvas.drawText(mNoDataTextDescription, getWidth() / 2, (getHeight() / 2)
-                        + textOffset, mInfoPaint);
-            }
+//            if (mDrawBitmap == null || mDrawCanvas == null) {
+//
+//                // use RGB_565 for best performance
+//                mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+//                mDrawCanvas = new Canvas(mDrawBitmap);
+//            }
+//
+//            mDrawCanvas.drawColor(mBackgroundColor); // clear all
+
             return;
         }
 
@@ -492,6 +502,8 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
 
         mDrawCanvas.drawColor(mBackgroundColor); // clear all
     }
+
+
 
     /**
      * Sets up all the matrices that will be used for scaling the coordinates to

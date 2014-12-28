@@ -1,62 +1,54 @@
 package com.tovsv.timmy.activity;
 
-import android.app.Activity;
 
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.tovsv.timmy.adapter.AppRecordListAdapter;
+import com.tovsv.timmy.fragment.DrawerFragment;
 import com.tovsv.timmy.fragment.MainFragment;
-import com.tovsv.timmy.fragment.NavigationDrawerFragment;
 import com.tovsv.timmy.R;
 import com.tovsv.timmy.model.event.CategoryEvent;
 import com.tovsv.timmy.service.AppListenerService;
-import com.tovsv.timmy.util.AppInfoList;
-import com.tovsv.timmy.util.AppRecordHelper;
-import com.tovsv.timmy.view.AppRecordListVIew;
-import com.umeng.update.UmengUpdateAgent;
-
-import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 
-public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity {
 
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private DrawerFragment mDrawerFragment;
     private MainFragment mainFragment;
+    private ActionBarDrawerToggle mDrawerToggle;
     private EventBus mEventBus;
 
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @InjectView(R.id.toolbar)
+    Toolbar toolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.inject(this);
+        toolBar.setBackgroundColor(Color.rgb(0,175,254));
+        setSupportActionBar(toolBar);
+
         //UmengUpdateAgent.update(this);
         mEventBus = EventBus.getDefault();
         mEventBus.register(this);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set up applistener
         startListenerServices();
@@ -74,17 +66,32 @@ public class MainActivity extends Activity
     }
 
     private void initDrawer(){
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+//        toolBar.setLogo(R.drawable.ic_drawer);
+
+        mDrawerFragment = new DrawerFragment();
         mainFragment = new MainFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, mainFragment)
+                .replace(R.id.left_drawer, mDrawerFragment)
                 .commit();
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ) {
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
-
-
 
     private void startListenerServices() {
         Intent intent = new Intent(this, AppListenerService.class);
@@ -102,11 +109,25 @@ public class MainActivity extends Activity
         mEventBus.unregister(this);
     }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        Toast.makeText(this,"po"+position, Toast.LENGTH_LONG).show();
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
+//https://www.google.com/search?client=safari&rls=en&q=fragmentstatepageradapter&ie=UTF-8&oe=UTF-8

@@ -3,7 +3,6 @@ package com.tovsv.timmy.util;
 import android.content.pm.PackageInfo;
 
 import com.tovsv.timmy.model.AppAction;
-import com.tovsv.timmy.model.AppInfo;
 import com.tovsv.timmy.model.AppRecord;
 
 import java.text.SimpleDateFormat;

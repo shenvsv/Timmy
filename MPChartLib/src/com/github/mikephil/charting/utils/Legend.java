@@ -311,7 +311,7 @@ public class Legend {
     /**
      * sets the space between the form and the actual label/text, converts to dp
      * internally
-     * 
+     *
      * @param mFormToTextSpace
      */
     public void setFormToTextSpace(float space) {

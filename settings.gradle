@@ -1,1 +1,1 @@
-include ':app', ':circleimageview', ':MPChartLib', ':umenglib'
+include ':app', ':circleimageview', ':MPChartLib', ':umenglib', ':viewflow'

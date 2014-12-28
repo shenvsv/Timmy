@@ -29,6 +29,7 @@ public class AppRecordListVIew extends ListView implements AbsListView.OnScrollL
     public AppRecordListVIew(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        this.setDividerHeight(0);
         init();
     }
 
@@ -51,31 +52,23 @@ public class AppRecordListVIew extends ListView implements AbsListView.OnScrollL
         mHeaderHeight = getResources().getDimensionPixelOffset(R.dimen.chart_view_height);
         addHeader();
         super.setOnScrollListener(this);
+    }
 
-        this.setOnScrollListener(new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                //DLog.i("//"+scrollState);
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //DLog.i(".."+ mHeader.getY());
-            }
-        });
+    public float getPY(){
+        return mHeader.getY();
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (isTouchHeader(ev)) {
-            return false;
-        }
+//        if (isTouchHeader(ev)) {
+//            return false;
+//        }
         return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (isTouchHeader(ev)){
+        if (ev.getAction() == MotionEvent.ACTION_DOWN && isTouchHeader(ev)){
             return false;
         }
         return super.onTouchEvent(ev);
@@ -90,7 +83,7 @@ public class AppRecordListVIew extends ListView implements AbsListView.OnScrollL
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        // DLog.i("change"+scrollState);
+       // DLog.i("change"+scrollState);
     }
 
 
