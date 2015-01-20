@@ -30,21 +30,30 @@ public class PieTouchListener extends SimpleOnGestureListener implements OnTouch
             return true;
 
         // rotation by touch
-            float x = e.getX();
-            float y = e.getY();
+        float x = e.getX();
+        float y = e.getY();
+        float distance = mChart.distanceToCenter(e.getX(), e.getY());
 
-            switch (e.getAction()) {
+        switch (e.getAction()) {
 
-                case MotionEvent.ACTION_DOWN:
-                    mChart.setStartAngle(x, y);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    mChart.updateRotation(x, y);
-                    mChart.invalidate();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-            }
+            case MotionEvent.ACTION_DOWN:
+//                if(distance <= mChart.getRadius() && distance >= mChart.getRadius() / 2f ){
+//                    mChart.setStartAngle(x, y);
+//                    mChart.getParent().requestDisallowInterceptTouchEvent(true);
+////                    return true;
+//                }else {
+//                    return true;
+//                }
+
+                mChart.setStartAngle(x, y);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mChart.updateRotation(x, y);
+                mChart.invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
         return true;
     }
 

@@ -1,10 +1,14 @@
 package com.tovsv.timmy.util;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.os.Build;
+
+import com.tovsv.timmy.receiver.BootCompletedReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -22,15 +26,23 @@ public class AppListener {
     private ActivityManager mActivityManager;
     private UsageStatsManager manager;
     private List<UsageStats> lastUsageStats;
+    private Boolean isLOLLIPOP = false;
 
     public AppListener(Context context) {
         mContext = context;
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        manager = (UsageStatsManager)context.getSystemService("usagestats");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            isLOLLIPOP = true;
+            manager = (UsageStatsManager)context.getSystemService("usagestats");
+        }
     }
 
     public String getForegroundPackage() {
-        return getPackage();
+        if (isLOLLIPOP){
+            return getPackage();
+        }else {
+            return getPackageCompat();
+        }
     }
 
     public String getPackageCompat(){
@@ -41,6 +53,7 @@ public class AppListener {
 
     }
     // use in 5.0
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public String getPackage(){
 
         Calendar beginCal = Calendar.getInstance();
@@ -51,7 +64,7 @@ public class AppListener {
         Calendar endCal = Calendar.getInstance();
         endCal.set(Calendar.DATE, 1);
         endCal.set(Calendar.MONTH, 0);
-        endCal.set(Calendar.YEAR, 2015);
+        endCal.set(Calendar.YEAR, 2025);
 
         List<UsageStats> queryUsageStats=manager.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY, beginCal.getTimeInMillis(), endCal.getTimeInMillis());
 

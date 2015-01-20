@@ -57,11 +57,30 @@ public class AppActionHelper {
         startTime = null;
     }
 
-    //data
-    public static List<AppRecord>  getRecordByDate(Calendar date){
-        CursorList<AppRecord> appRecords = Query.many(AppRecord.class,
-                "SELECT package_name,sum(duration) FROM app_action WHERE date = ? GROUP BY package_name ORDER BY sum(duration) DESC",formatDate(date))
-                .get();
+    public static List<AppRecord> getRecordByDate(Calendar date,int mode){
+        CursorList<AppRecord> appRecords;
+        switch (mode){
+            case AppRecordHelper.MODE_WEEK:
+                appRecords = Query.many(AppRecord.class,
+                        "SELECT package_name,sum(duration) FROM app_action WHERE strftime('mode%Y%W',date) = strftime('mode%Y%W',?)  GROUP BY package_name ORDER BY sum(duration) DESC",formatDate(date))
+                        .get();
+                break;
+            case AppRecordHelper.MODE_MONTH:
+                appRecords = Query.many(AppRecord.class,
+                        "SELECT package_name,sum(duration) FROM app_action WHERE strftime('mode%Y%m',date) = strftime('mode%Y%m',?)  GROUP BY package_name ORDER BY sum(duration) DESC",formatDate(date))
+                        .get();
+                break;
+            case AppRecordHelper.MODE_ALL:
+                appRecords = Query.many(AppRecord.class,
+                        "SELECT package_name,sum(duration) FROM app_action GROUP BY package_name ORDER BY sum(duration) DESC",formatDate(date))
+                        .get();
+                break;
+            default:
+                appRecords = Query.many(AppRecord.class,
+                        "SELECT package_name,sum(duration) FROM app_action WHERE date = ? GROUP BY package_name ORDER BY sum(duration) DESC",formatDate(date))
+                        .get();
+                break;
+        }
         List<AppRecord> list = appRecords.asList();
         appRecords.close();
         return list;

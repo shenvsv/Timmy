@@ -8,40 +8,42 @@
     <LinearLayout
         android:id="@+id/chart_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/chart_view_height"
         android:orientation="vertical"
         android:layout_gravity="top">
 
         <com.tovsv.timmy.view.PieView
             android:id="@+id/chat_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/chart_view_height"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
             />
 
     </LinearLayout>
 
     <com.tovsv.timmy.view.AppRecordListVIew
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_gravity="top"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="refresh"
-        android:id="@+id/button_refresh"
-        android:layout_gravity="center_horizontal|bottom"
-        />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="refresh"-->
+        <!--android:id="@+id/button_refresh"-->
+        <!--android:layout_gravity="center_horizontal|bottom"-->
+        <!--/>-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="yesterday"
-        android:id="@+id/button_yesterday"
-        android:layout_gravity="right|bottom"
-        />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="yesterday"-->
+        <!--android:id="@+id/button_yesterday"-->
+        <!--android:layout_gravity="right|bottom"-->
+        <!--/>-->
 
 
 </FrameLayout>

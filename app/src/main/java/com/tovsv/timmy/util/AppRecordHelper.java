@@ -23,12 +23,17 @@ public class AppRecordHelper {
 
     private PackageManager mPackageManager;
 
+    public static final int MODE_DAY = 0;
+    public static final int MODE_WEEK = 1;
+    public static final int MODE_MONTH = 2;
+    public static final int MODE_ALL = 3;
+
     public AppRecordHelper(Context context) {
         mPackageManager = context.getPackageManager();
     }
 
-    public AppInfoList loadAppsByDate(Calendar date) {
-        List<AppRecord> appRecords = AppActionHelper.getRecordByDate(date);
+    public AppInfoList loadAppsByDate(Calendar date,int mode) {
+        List<AppRecord> appRecords = AppActionHelper.getRecordByDate(date,mode);
         AppInfoList appInfos = new AppInfoList(appRecords.size());
         long totleTime = 0;
         for (AppRecord appRecord: appRecords) {

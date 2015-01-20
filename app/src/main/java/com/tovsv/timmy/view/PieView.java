@@ -1,6 +1,7 @@
 package com.tovsv.timmy.view;
 
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,10 +40,10 @@ public class PieView extends View implements ValueAnimator.AnimatorUpdateListene
     private float mSliceSpace = 0f;
     private float mHoleRadiusPercent = 50f;
 
-    private float mOffsetLeft = 20;
-    private float mOffsetTop = 20;
-    private float mOffsetRight = 20;
-    private float mOffsetBottom = 20;
+    private float mOffsetLeft = 0;
+    private float mOffsetTop = 0;
+    private float mOffsetRight = 0;
+    private float mOffsetBottom = 0;
 
     private float mPhaseY = 1f;
     private float mStartAngle = 0f;
@@ -58,6 +59,7 @@ public class PieView extends View implements ValueAnimator.AnimatorUpdateListene
     protected RectF mContentRect = new RectF();
     private RectF mCircleBox = new RectF();
     private PieTouchListener mListener;
+    private ObjectAnimator mAnimatorY;
 
 
 
@@ -89,10 +91,10 @@ public class PieView extends View implements ValueAnimator.AnimatorUpdateListene
 
     private void prepareContent(){
 
-        mOffsetBottom = (int) Utils.convertDpToPixel(20);
-        mOffsetLeft = (int) Utils.convertDpToPixel(20);
-        mOffsetRight = (int) Utils.convertDpToPixel(20);
-        mOffsetTop = (int) Utils.convertDpToPixel(20);
+        mOffsetBottom = (int) Utils.convertDpToPixel(0);
+        mOffsetLeft = (int) Utils.convertDpToPixel(0);
+        mOffsetRight = (int) Utils.convertDpToPixel(0);
+        mOffsetTop = (int) Utils.convertDpToPixel(0);
 
         mContentRect.set(mOffsetLeft,
                 mOffsetTop,
@@ -211,7 +213,7 @@ public class PieView extends View implements ValueAnimator.AnimatorUpdateListene
         mHolePaint.setColor(Color.rgb(255,65,129));
 //        // draw the transparent-circle
         mDrawCanvas.drawCircle(c.x, c.y,
-                radius / 100 * mHoleRadiusPercent /2, mHolePaint);
+                mPhaseY * radius / 100 * mHoleRadiusPercent /2, mHolePaint);
         mHolePaint.setColor(color);
 
     }
@@ -320,6 +322,20 @@ public class PieView extends View implements ValueAnimator.AnimatorUpdateListene
         invalidate();
     }
 
+    public void animateY(int durationMillis) {
+        mAnimatorY = ObjectAnimator.ofFloat(this, "phaseY", 0f, 1f);
+        mAnimatorY.setDuration(durationMillis);
+        mAnimatorY.addUpdateListener(this);
+        mAnimatorY.start();
+    }
+
+    public float getPhaseY() {
+        return mPhaseY;
+    }
+
+    public void setPhaseY(float phase) {
+        mPhaseY = phase;
+    }
 //    public int getIndexForAngle(float angle) {
 //        float a = (angle - mRotationAngle + 360) % 360f;
 //        return 0;

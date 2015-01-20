@@ -2,11 +2,14 @@ package com.tovsv.timmy.activity;
 
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +22,9 @@ import com.tovsv.timmy.fragment.MainFragment;
 import com.tovsv.timmy.R;
 import com.tovsv.timmy.model.event.CategoryEvent;
 import com.tovsv.timmy.service.AppListenerService;
+import com.tovsv.timmy.view.AppShowPager;
+
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,10 +38,14 @@ public class MainActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private EventBus mEventBus;
 
+    private FragmentPagerAdapter adapter;
+
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.toolbar)
     Toolbar toolBar;
+    @InjectView(R.id.container)
+    AppShowPager container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,7 @@ public class MainActivity extends ActionBarActivity {
 
         ButterKnife.inject(this);
         toolBar.setBackgroundColor(Color.rgb(0,175,254));
+        toolBar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolBar);
 
         //UmengUpdateAgent.update(this);
@@ -55,8 +66,6 @@ public class MainActivity extends ActionBarActivity {
 
         // Set up the drawer.
         initDrawer();
-
-        //mainFragment.showTime(Calendar.getInstance());
     }
 
     @Override
@@ -66,31 +75,40 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void initDrawer(){
-//        toolBar.setLogo(R.drawable.ic_drawer);
 
         mDrawerFragment = new DrawerFragment();
         mainFragment = new MainFragment();
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, mainFragment)
+//                .replace(R.id.container, mainFragment)
                 .replace(R.id.left_drawer, mDrawerFragment)
                 .commit();
+
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
+                this,
+                mDrawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close
         ) {
-            /** Called when a drawer has settled in a completely closed state. */
+            /**
+             * Called when a drawer has settled in a completely closed state.
+             */
             public void onDrawerClosed(View view) {
             }
 
-            /** Called when a drawer has settled in a completely open state. */
+            /**
+             * Called when a drawer has settled in a completely open state.
+             */
             public void onDrawerOpened(View drawerView) {
             }
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        //set up pager
+
+        container.init(fragmentManager);
+
     }
 
     private void startListenerServices() {

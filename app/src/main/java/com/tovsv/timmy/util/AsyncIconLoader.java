@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.util.LruCache;
 import android.widget.ImageView;
 
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.squareup.picasso.Picasso;
 
 
@@ -28,15 +29,12 @@ public class AsyncIconLoader {
     private LruCache<String, Bitmap> mMemoryCache;
     private PackageManager mPackageManager;
     private Context mContext;
+    private ObjectAnimator mAnimatorY;
 
 
     public AsyncIconLoader(Context context) {
         mPackageManager = context.getPackageManager();
         mContext = context;
-
-        //mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-
-        //mBitmapPaint.setShader(mBitmapShader);
         initCache();
     }
 
@@ -49,7 +47,6 @@ public class AsyncIconLoader {
                 return value.getByteCount() / 1024;
             }
         };
-
     }
 
     private void addBitmapToMemoryCache(String key, Bitmap bitmap) {
@@ -94,29 +91,15 @@ public class AsyncIconLoader {
             Drawable icon = packageInfo.applicationInfo.loadIcon(mPackageManager);
 
             Bitmap APKicon;
-            if(icon instanceof BitmapDrawable) {
-                APKicon  = ((BitmapDrawable)icon).getBitmap();
-            } else{
-                Bitmap bitmap = Bitmap.createBitmap(icon.getIntrinsicWidth(),icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            if (icon instanceof BitmapDrawable) {
+                APKicon = ((BitmapDrawable) icon).getBitmap();
+            } else {
+                Bitmap bitmap = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
                 icon.draw(canvas);
                 APKicon = bitmap;
             }
-
-//            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-//            Canvas canvas = new Canvas();
-//            int mDrawableRadius = Math.min(bitmap.getHeight() / 2, bitmap.getWidth() / 2);
-//            BitmapShader mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-//            Paint mBitmapPaint = new Paint();
-//            mBitmapPaint.setShader(mBitmapShader);
-//            mBitmapPaint.setAntiAlias(true);
-//            canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, mDrawableRadius, mBitmapPaint);
-
-//            if (mBorderWidth != 0) {
-//                canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius, mBorderPaint);
-//            }
-
             return APKicon;
         } catch (PackageManager.NameNotFoundException e) {
             return null;

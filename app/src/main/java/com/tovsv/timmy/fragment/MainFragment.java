@@ -2,12 +2,10 @@ package com.tovsv.timmy.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,13 +13,8 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tovsv.timmy.R;
-import com.tovsv.timmy.adapter.AppRecordListAdapter;
-import com.tovsv.timmy.model.AppInfo;
+import com.tovsv.timmy.adapter.AppRecordAdapter;
 import com.tovsv.timmy.model.event.CategoryEvent;
 import com.tovsv.timmy.model.event.DataChangeEvent;
 import com.tovsv.timmy.util.AppInfoList;
@@ -31,10 +24,7 @@ import com.tovsv.timmy.view.AppRecordListVIew;
 import com.tovsv.timmy.view.PieView;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -42,21 +32,6 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class MainFragment extends Fragment {
-
-    //test
-    @OnClick(R.id.button_refresh)
-    public void btn_refresh(){
-        showTime(Calendar.getInstance());
-    }
-
-    @OnClick(R.id.button_yesterday)
-    public void btn_yesterday(){
-        Calendar ca = Calendar.getInstance();
-        ca.add(Calendar.DAY_OF_YEAR, -1);
-        showTime(ca);
-//        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-//        startActivity(intent);
-    }
 
     @InjectView(R.id.chat_view)
     PieView chartView;
@@ -72,6 +47,20 @@ public class MainFragment extends Fragment {
     private Context context;
     private Animator animator;
     private int animatorProgress = 0;
+    private Calendar ca = null;
+    private int mode = -1;
+
+    public MainFragment(){
+        super();
+        ca = Calendar.getInstance();
+        this.mode = AppRecordHelper.MODE_DAY;
+    }
+
+    public MainFragment(Calendar ca,int mode){
+        super();
+        this.ca = ca;
+        this.mode = mode;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +89,7 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //startAnimators();
         init();
-        showTime(Calendar.getInstance());
+        showTime(ca,mode);
     }
 
     private void init() {
@@ -110,21 +99,9 @@ public class MainFragment extends Fragment {
                 return false;
             }
         });
-
-//        timeList.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                //DLog.i("//"+scrollState);
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                DLog.i(".."+ timeList.getPY());
-//            }
-//        });
     }
 
-    public void showTime(final Calendar ca){
+    public void showTime(final Calendar ca, final int mode){
 
         new AsyncTask<Void, Void, AppInfoList>() {
             @Override
@@ -134,19 +111,20 @@ public class MainFragment extends Fragment {
             @Override
             protected AppInfoList doInBackground(Void... voids) {
                 AppRecordHelper helper = new AppRecordHelper(context);
-                AppInfoList list = helper.loadAppsByDate(ca);
-                chartView.setData(list);
+                AppInfoList list = helper.loadAppsByDate(ca,mode);
+//                chartView.setData(list);
                 return list;
             }
             @Override
             protected void onPostExecute(AppInfoList list) {
+//                chartView.invalidate();
 
-                chartView.invalidate();
 
-                AppRecordListAdapter adapter = new AppRecordListAdapter(context, list);
+                AppRecordAdapter adapter = new AppRecordAdapter(context, list);
                 timeList.setAdapter(adapter);
 
-//                chartView.animateY(1500);
+                chartView.setData(list);
+                chartView.animateY(1500);
                 // startAnimators();
 
             }
